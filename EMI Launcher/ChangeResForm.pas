@@ -1,46 +1,42 @@
  {
 ******************************************************
   Escape From Monkey Island Launcher
-  Copyright (c) 2004-2008 Bgbennyboy
-  Http://quick.mixnmojo.com
+  2004-2014 By Bennyboy
+  Http://quickandeasysoftware.net
 ******************************************************
 }
 {
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 }
+
+//Lots here could do with being rewritten. Eg functions returning success rather than global PatchApplied variables.
+//But it works, so leaving it for now.
 
 unit ChangeResForm;
 
 interface
 
 uses
-  Windows, Forms, Messages, SysUtils, TaskDialog, ImgList, Controls, PngImageList,
+  Windows, Forms, Messages, SysUtils, TaskDialog, ImgList, Controls,
   AdvGlowButton, StdCtrls, Classes, ComCtrls, JCLRegistry, uEMIUtils, uEMIConst;
 
 type
   TfrmChangeRes = class(TForm)
     comboboxRes: TComboBoxEx;
-    lstboxOutput: TListBox;
     btnChange: TAdvGlowButton;
-    PngImageList1: TPngImageList;
     dlg640x480: TAdvTaskDialog;
+    ImageList1: TImageList;
+    editResWidth: TEdit;
+    editResHeight: TEdit;
+    memoOutput: TMemo;
     procedure btnChangeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure comboboxResChange(Sender: TObject);
-    procedure editYResChange(Sender: TObject);
+    procedure editResWidthChange(Sender: TObject);
+    procedure editResHeightChange(Sender: TObject);
   private
     { Private declarations }
     XRes, YRes: integer;
@@ -48,7 +44,6 @@ type
     MemFile: TMemoryStream;
     PatchError, Patch1Applied, Patch2Applied, Patch3Applied, Patch4Applied: boolean;
     procedure AddOutput(Instring: string; Newline: boolean = false);
-    procedure AddPatchDisclaimer;
     procedure ApplyResPatches;
     procedure FindPatch1And2;
     procedure FindPatch3;
@@ -57,6 +52,9 @@ type
     procedure WritePatch2(Offset: integer);
     procedure WritePatch3(Offset: integer);
     procedure WritePatch4(Offset: integer);
+    function ReadMemStreamByte: byte; inline;
+    function PatchBinkFiles(Unpatch: boolean = false): boolean;
+    function FindFileHeader(SearchStream: TStream; StartSearchAt, EndSearchAt: Integer; Header: string): integer;
   public
     { Public declarations }
   end;
@@ -68,53 +66,138 @@ const
   TPatch1Array: array[0..18] of integer = (199,68,36,-1,128,2,0,0,199,132,36,-1,0,0,0,224,1,0,0);
   TPatch2Array: array[0..15] of integer = (199,68,36,-1,128,2,0,0,199,68,36,-1,224,1,0,0);
   TPatch3Array: array[0..9]  of integer = (104,128,0,0,0,104,0,1,0,0);
-  TPatch4Array: array[0..13]  of integer = (69, 248, 128, 2, 0, 0, 199, 69, 252, 224, 1, 0, 0, 255);
-  xResolutions: array[0..11] of integer = (640, 800, 1024, 1152, 1280, 1280, 1400, 1600, 2048, 3200, 4000, 6400);
-  yResolutions: array[0..11] of integer = (480, 600, 768,  864,  960,  1024, 1050, 1200, 1536, 2400, 3000, 4800);
+  TPatch4Array: array[0..13] of integer = (69, 248, 128, 2, 0, 0, 199, 69, 252, 224, 1, 0, 0, 255);
+  xResolutions: array[0..22] of integer = (640, 800, 852, 1024, 1152, 1280, 1280, 1280, 1365, 1400, 1440, 1600, 1600, 1680, 1920, 1920, 2048, 2560, 3200, 3840, 4000, 6400, 7680);
+  yResolutions: array[0..22] of integer = (480, 600, 480, 768,  864,  720,  960,  1024, 768,  1050, 900,  900,  1200, 1050, 1080, 1200, 1536, 1600, 2400, 2400, 3000, 4800, 4800);
+  BinkFiles:    array[0..23] of string = ('bank.m4b', 'dock.m4b', 'dumm.m4b', 'ela2.m4b', 'ela3.m4b', 'espy.m4b', 'finis.m4b', 'gmrr.m4b', 'herm.m4b', 'home1.m4b', 'home2.m4b', 'intro_a.m4b', 'intro_b.m4b', 'melt.m4b', 'moh_close_hat.m4b', 'moh_close_nohat.m4b', 'moh_open_hat.m4b', 'moh_open_nohat.m4b', 'nose.m4b', 'oznx.m4b', 'rock.m4b', 'rock1B.m4b', 'rock1C.m4b', 'sory.m4b');
+
 implementation
 
 {$R *.dfm}
 
-//TODO - check this - refactor/change this
-function ReadMemStreamByte: byte; inline;
+
+function TfrmChangeRes.ReadMemStreamByte: byte;
 begin
-	frmChangeRes.MemFile.Read(result,1);
+	MemFile.Read(result,1);
 end;
 
 //Form show actions
 procedure TfrmChangeRes.FormShow(Sender: TObject);
 begin
-  lstboxOutput.Clear;
-  AddPatchDisclaimer;
+  memoOutput.Clear;
+  AddOutput(strPatchDisclaimer1, true);
+end;
+
+//File a string header within a file
+function TfrmChangeRes.FindFileHeader(SearchStream: TStream;
+  StartSearchAt, EndSearchAt: Integer; Header: string): integer;
+var
+  HeaderLength, Index: integer;
+  TempByte: Byte;
+begin
+  Result:=-1;
+  Index:=1;
+  if EndSearchAt > SearchStream.Size then
+    EndSearchAt:=SearchStream.Size;
+
+  HeaderLength:=Length(Header);
+  if HeaderLength <= 0 then exit;
+
+
+  SearchStream.Position:=StartSearchAt;
+  while SearchStream.Position < EndSearchAt do
+  begin
+    SearchStream.Read(TempByte, 1);
+    if Chr(TempByte) <> Header[Index] then
+    begin
+      if Index > 1 then
+        SearchStream.Position := SearchStream.Position  -1;
+
+      Index:=1;
+      continue;
+    end;
+
+    inc(Index);
+    if index > HeaderLength then
+    begin
+      Result:=SearchStream.Position - HeaderLength;
+      exit;
+    end;
+  end;
+
+end;
+
+//Patch the bink files to enable size doubling
+function TfrmChangeRes.PatchBinkFiles(Unpatch: boolean = false): boolean;
+var
+  BinkFolder: string;
+  i, BIKiHeader, PatchedFiles: integer;
+  BinkFile: TFileStream;
+  TempByte: byte;
+begin
+  result := false;
+  PatchedFiles := 0;
+  if Unpatch = true then
+    TempByte := 0
+  else
+    TempByte := 64; //0x40 - enable doubling
+
+  BinkFolder := IncludeTrailingPathDelimiter(getEMIpath) + IncludeTrailingPathDelimiter('Movies');
+
+  //Check all the files are there
+  for I := Low(BinkFiles) to High(BinkFiles) do
+  begin
+    if FileExists(BinkFolder + BinkFiles[i]) = false then
+    begin
+      AddOutput(strErrNoMovieFile +  BinkFiles[i], true);
+      Exit;
+    end;
+  end;
+
+  //Patch each file
+  try
+    for I := Low(BinkFiles) to High(BinkFiles) do
+    begin
+      BinkFile := TFileStream.Create(BinkFolder + BinkFiles[i], fmOpenReadWrite);
+      try
+        //Find the BIKi header - different place in each file
+        BIKiHeader := FindFileHeader(BinkFile, 0, 3000, 'BIKi');
+        if BIKiHeader = -1 then
+        begin
+          AddOutput(strErrNoBikiHeader + BinkFiles[i], true);
+          Exit;
+        end;
+
+        //Patch it
+        BinkFile.Position := BIKiHeader + 39;
+        BinkFile.Write(TempByte, 1);
+        inc(PatchedFiles);
+      finally
+        BinkFile.Free;
+      end;
+    end;
+  finally
+    if PatchedFiles >= High(BinkFiles) then
+    begin
+      if Unpatch = true then
+        AddOutput(strAllMovieFilesUnPatched, true)
+      else
+        AddOutput(strAllMovieFilesPatched, true);
+
+      result := true;
+    end
+    else
+      AddOutput(strErrNotAllMoviesPatched, true);
+  end;
 end;
 
 //Add output
 procedure TfrmChangeRes.AddOutput(Instring: string; NewLine: boolean=false);
 begin
-  lstboxOutput.Items.Add(Instring);
+  memoOutput.Lines.Add(Instring);
   if NewLine=true then
-    lstboxOutput.Items.Add('');
-  lstboxOutput.Selected[lstboxOutput.items.count-1]:=true;
+    memoOutput.Lines.Add('');
 end;
-
-//Add patch disclaimer
-procedure TfrmChangeRes.AddPatchDisclaimer;
-begin
-  AddOutput(strPatchDisclaimer1);
-  AddOutput(strPatchDisclaimer2);
-  AddOutput(strPatchDisclaimer3);
-  AddOutput(strPatchDisclaimer4, true);
-  AddOutput(strPatchDisclaimer5, true);
-  AddOutput(strPatchDisclaimer6);
-  AddOutput(strPatchDisclaimer7);
-  AddOutput(strPatchDisclaimer8, true);
-end;
-
-{Rather than hardcoding the offsets for
-the res patch i've made it scan for the
-4 'mini-patches' that need to be changed.
-This *should* mean that the patch will work
-for patched/unpatched/non-english versions}
 
 //Change button click
 procedure TfrmChangeRes.btnChangeClick(Sender: TObject);
@@ -126,45 +209,8 @@ begin
   Patch2Applied:=false;
   Patch3Applied:=false;
   Patch4Applied:=false;
-  lstboxOutput.Clear;
-  AddPatchDisclaimer;
-
-  {case comboboxRes.ItemIndex of  //Put the resolution in the var's
-    0: begin
-        DialogResult:=dlg640x480.Execute;
-        case DialogResult of
-          100:  ; //Use patched exe
-          101:  begin
-                  //Just use original exe again
-                  AddOutput(strRestoreDefaultRes);
-                  RegWriteInteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'originalexe', 1);
-                  AddOutput(strRestoreDefaultResDone);
-                  exit;
-                end;
-          else
-            exit;
-        end;
-
-        xres:=640;
-        yres:=480;
-       end;
-    1: begin
-        xres:=800;
-        yres:=600;
-       end;
-    2: begin
-        xres:=1024;
-        yres:=768;
-       end;
-    3: begin
-        xres:=1280;
-        yres:=1024;
-       end;
-    4: begin
-        xres:=1600;
-        yres:=1200;
-       end;
-  end;}
+  memoOutput.Clear;
+  AddOutput(strPatchDisclaimer1, true);
 
   if (xRes = 640) and (yRes = 480) then
   begin
@@ -175,6 +221,7 @@ begin
               //Just use original exe again
               AddOutput(strRestoreDefaultRes);
               RegWriteInteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'originalexe', 1);
+              PatchBinkFiles(true); //unpatch movie files
               AddOutput(strRestoreDefaultResDone);
               exit;
             end;
@@ -183,8 +230,14 @@ begin
     end;
   end;
 
+  //Patch the bink movie files
+  if PatchBinkFiles = false then
+  begin
+    AddOutput(strErrPatchingMovieFiles);
+    exit;
+  end;
+
   try
-    //AddOutput('Patching started at ' + timetostr(time), true);
     AddOutput(strTargetResIs + inttostr(xres) + 'x' + inttostr(yres));
 
     try
@@ -257,58 +310,41 @@ end;     //      the user has saved games made in a higher resolution - the game
 //Form create actions
 procedure TfrmChangeRes.FormCreate(Sender: TObject);
 begin
-  //SetDesktopIconFonts(Self.Font);
   comboboxRes.ItemIndex:=0;
-  xRes := 640;
-  yRes := 480;
+  XRes := xResolutions[comboboxRes.ItemIndex];
+  YRes := yResolutions[comboboxRes.ItemIndex];
+
+  editResWidth.Text := inttostr(XRes);
+  editResHeight.Text := inttostr(YRes);
 end;
 
 procedure TfrmChangeRes.comboboxResChange(Sender: TObject);
 begin
   if comboBoxRes.ItemIndex > High(xResolutions) then exit;
 
-  XRes := xResolutions[comboboxRes.ItemIndex];
-  YRes := yResolutions[comboboxRes.ItemIndex];
-
-  {case comboBoxRes.ItemIndex of
-    0: begin
-        editXRes.Text := '640';
-        editYRes.Text := '480';
-       end;
-    1: begin
-        editXRes.Text := '800';
-        editYRes.Text := '600';
-       end;
-    2: begin
-        editXRes.Text := '1024';
-        editYRes.Text := '768';
-       end;
-    3: begin
-        editXRes.Text := '1280';
-        editYRes.Text := '1024';
-       end;
-    4: begin
-        editXRes.Text := '1600';
-        editYRes.Text := '1200';
-       end;
-  end;}
+  editResWidth.Text := inttostr(xResolutions[comboboxRes.ItemIndex]);
+  editResHeight.Text := inttostr(yResolutions[comboboxRes.ItemIndex]);
 end;
 
 
-
-procedure TfrmChangeRes.editYResChange(Sender: TObject);
+procedure TfrmChangeRes.editResHeightChange(Sender: TObject);
 begin
-
+  YRes := strtoint(editResHeight.Text);
 end;
 
-{
-This is basically how the searches work:
-  Every byte in the file is read and tested to see if it matches the first byte of a patch
-  If one does match then it seeks forward and sees if the last byte of the patch is also the same
-  If the first and last byte are there then there's a decent chance that its going to be the correct sequence
-  It then examines the bytes inbetween, if they all match then this is the correct place to apply the patch
-}
+procedure TfrmChangeRes.editResWidthChange(Sender: TObject);
+begin
+  XRes := strtoint(editResWidth.Text);
+end;
 
+{This is how the searches work:
+Every byte in the file is read and tested to see if it matches the first byte of a patch
+If one does match then it seeks forward and sees if the last byte of the patch is also the same
+If the first and last byte are there then there's a decent chance that its going to be the correct sequence
+It then examines the bytes inbetween, if they all match then this is the correct place to apply the patch}
+
+{Rather than hardcoding the offsets for the res patch i've made it scan for the 4 'mini-patches' that need to be changed.
+This *should* mean that the patch will work for patched/unpatched/non-english versions}
 procedure TfrmChangeRes.ApplyResPatches;
 var
   FirstByte: byte;

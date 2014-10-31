@@ -1,24 +1,14 @@
  {
 ******************************************************
   Escape From Monkey Island Launcher
-  Copyright (c) 2004-2008 Bgbennyboy
-  Http://quick.mixnmojo.com
+  2004-2014 By Bennyboy
+  Http://quickandeasysoftware.net
 ******************************************************
 }
 {
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 }
 
 unit OptionsForm;
@@ -26,9 +16,9 @@ unit OptionsForm;
 interface
 
 uses
-  Windows, Messages, SysUtils, Controls, Forms, Classes, Dialogs, ImgList, PngImageList,
-  TaskDialog, WebCopy,  AdvGlowButton, JCLRegistry, JCLShell, uEMIUtils, uVistaFuncs,
-  uEMIConst;
+  Windows, Messages, SysUtils, Controls, Forms, Classes, Dialogs, ImgList,
+  TaskDialog, WebCopy,  AdvGlowButton, JCLRegistry, JCLShell, IOUtils, uEMIUtils,
+  uEMIConst, ChangeNoCdForm;
 
 type
   TfrmOptions = class(TForm)
@@ -38,7 +28,8 @@ type
     btnPatch: TAdvGlowButton;
     btnRenderingMode: TAdvGlowButton;
     btnColourDepth: TAdvGlowButton;
-    PngImageList1: TPngImageList;
+    ImageList1: TImageList;
+    btnRunWithoutCDs: TAdvGlowButton;
     procedure FormShow(Sender: TObject);
     procedure btnCloseOnRunClick(Sender: TObject);
     procedure btnPatchClick(Sender: TObject);
@@ -52,7 +43,7 @@ type
       ButtonID: Integer);
     procedure btnRenderingModeClick(Sender: TObject);
     procedure btnColourDepthClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
+    procedure btnRunWithoutCDsClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -64,14 +55,10 @@ var
 
 implementation
 
-{$R *.dfm}   
+{$R *.dfm}
+
 
 //Form show actions
-procedure TfrmOptions.FormCreate(Sender: TObject);
-begin
-  SetDesktopIconFonts(Self.Font);
-end;
-
 procedure TfrmOptions.FormShow(Sender: TObject);
 begin
   if GetCloseOnRun=true then
@@ -105,6 +92,17 @@ begin
   begin
     btnColourDepth.ImageIndex:=5;
     btnColourDepth.Tag:=0;
+  end;
+
+  if GetHdRun=true then
+  begin
+    btnRunWithoutCDs.ImageIndex:=8;
+    btnRunWithoutCDs.Tag:=1;
+  end
+  else
+  begin
+    btnRunWithoutCDs.ImageIndex:=7;
+    btnRunWithoutCDs.Tag:=0;
   end;
 end;
 
@@ -141,6 +139,67 @@ begin
     btnRenderingMode.ImageIndex:=4;
     btnRenderingMode.Tag:=1;
     regwriteinteger(HKEY_LOCAL_MACHINE,'SOFTWARE\LucasArts Entertainment Company LLC\Monkey4\Retail', 'OpenGL', 1);
+  end
+end;
+
+procedure TfrmOptions.btnRunWithoutCDsClick(Sender: TObject);
+var
+  BackupPath: string;
+begin
+  if btnRunWithoutCDs.Tag=1 then
+  begin
+    //Try and restore the backups
+    BackupPath := IncludeTrailingPathDelimiter(GetEMIPath) + IncludeTrailingPathDelimiter('Backup');
+    if (DirectoryExists(BackupPath) = false) or
+       (FileExists(BackupPath + 'Monkey4.exe') = false) or
+       (FileExists(BackupPath + 'FullMonkeyMap.imt') = false)
+    then
+    begin
+      ShowMessage('Couldn''t find files in backup folder to restore!' + sLineBreak + sLineBreak + 'Backups of Monkey4.exe and FullMonkeyMap.int have NOT been restored');
+      Exit;
+    end;
+
+    //Sometimes files are read only so we cant copy them back
+    RemoveReadOnlyFileAttribute(BackupPath + 'Monkey4.exe');
+    RemoveReadOnlyFileAttribute(BackupPath + 'FullMonkeyMap.imt');
+    RemoveReadOnlyFileAttribute(GetEMIPathAndExe);
+    RemoveReadOnlyFileAttribute(IncludeTrailingPathDelimiter(GetEMIPath) + 'Textures\FullMonkeyMap.imt');
+
+    //Copy the files back to their original location
+    try
+      TFile.Copy(BackupPath + 'FullMonkeyMap.imt', IncludeTrailingPathDelimiter(GetEMIPath) + 'Textures\FullMonkeyMap.imt', true);
+      TFile.Copy(BackupPath + 'Monkey4.exe', GetEMIPathAndExe, true);
+    except on e: exception do
+    begin
+      ShowMessage('There was a problem restoring the files' + sLineBreak + sLineBreak +
+                  'Error message was: ' + e.Message + sLineBreak + sLineBreak +
+                  'Backups of Monkey4.exe and FullMonkeyMap.int have NOT been restored');
+      Exit;
+    end;
+    end;
+
+    //If we get here then files have been successfully restored
+    btnRunWithoutCDs.ImageIndex:=7;
+    btnRunWithoutCDs.Tag:=0;
+    regwriteinteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'hdrun', 0);
+    ShowMessage('Cd patch removed, original files have been restored.' + sLineBreak + sLineBreak + 'If you used this launcher to change the resolution then you MUST go and change it again now.');
+  end
+  else
+  if btnRunWithoutCDs.Tag=0 then
+  begin
+    frmPatchNoCd.ShowModal;
+
+    //Now check if it was successful
+    if GetHdRun=true then
+    begin
+      btnRunWithoutCDs.ImageIndex:=8;
+      btnRunWithoutCDs.Tag:=1;
+    end
+    else
+    begin
+      btnRunWithoutCDs.ImageIndex:=7;
+      btnRunWithoutCDs.Tag:=0;
+    end;
   end
 end;
 

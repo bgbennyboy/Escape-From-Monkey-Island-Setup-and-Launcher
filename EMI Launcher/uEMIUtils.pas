@@ -1,24 +1,14 @@
  {
 ******************************************************
   Escape From Monkey Island Launcher
-  Copyright (c) 2004-2008 Bgbennyboy
-  Http://quick.mixnmojo.com
+  2004-2014 By Bennyboy
+  Http://quickandeasysoftware.net
 ******************************************************
 }
 {
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 }
 
 unit uEMIUtils;
@@ -32,12 +22,15 @@ function GetCloseOnRun: boolean;
 function GetUseOriginalExe: boolean;
 function GetOpenGL: boolean;
 function Get16BitColourDepth: boolean;
+function GetHdRun: boolean;
 function CreateDefaultRegKeys : string;
+function GetPatchedResolution: string;
+procedure RemoveReadOnlyFileAttribute(FileName: string);
 
 implementation
 
 uses
-  jclregistry, jclstrings, windows;
+  jclregistry, jclstrings, windows, sysutils, classes;
 
 //Read Path to EMI from Registry
 function GetEMIPath: string;
@@ -77,6 +70,13 @@ begin
     result:=false;
 end;
 
+function GetHdRun: boolean;
+begin
+  if regreadinteger(HKEY_CURRENT_USER,'Software\Quick And Easy\EMI Launcher','hdrun')=1 then
+    result:=true
+  else
+    result:=false;
+end;
 
 //Check if using original exe or not
 function GetUseOriginalExe: boolean;
@@ -124,6 +124,13 @@ begin
       regwriteinteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'originalexe', 1);
   end;
 
+  try
+    regreadinteger(HKEY_CURRENT_USER,'Software\Quick And Easy\EMI Launcher','hdrun')
+
+    Except On EJclRegistryError do
+      regwriteinteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'hdrun', 0);
+  end;
+
   //This should always be here as its created by the installer but just in case...
   try
     regreadinteger(HKEY_LOCAL_MACHINE,'SOFTWARE\LucasArts Entertainment Company LLC\Monkey4\Retail', 'OpenGL')
@@ -150,5 +157,39 @@ begin
 
   end;
 end;}
+
+procedure RemoveReadOnlyFileAttribute(FileName: string);
+var
+  Attributes: cardinal;
+begin
+  if FileName = '' then exit;
+
+  Attributes:=FileGetAttr(FileName);
+  if Attributes = INVALID_FILE_ATTRIBUTES then exit;
+
+  if Attributes and faReadOnly = faReadOnly then
+    FileSetAttr(FileName, Attributes xor faReadOnly);
+end;
+
+function GetPatchedResolution: string;
+var
+  TheFile: TFileStream;
+  TempDWord: DWord;
+begin
+  Result := '';
+  TheFile := TFileStream.Create(getEMIpath + GetEMIexe, fmOpenRead);
+  try
+    if TheFile.Size < 232800 then exit;
+    
+    TheFile.Position := 232785;
+    TheFile.Read(TempDWord, 4);
+    Result := inttostr(TempDWord);
+    TheFile.Seek(7, soFromCurrent);
+    TheFile.Read(TempDWord, 4);
+    Result := Result + 'x' + inttostr(TempDWord);
+  finally
+    TheFile.Free;
+  end;
+end;
 
 end.

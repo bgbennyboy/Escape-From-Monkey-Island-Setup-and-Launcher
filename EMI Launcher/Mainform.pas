@@ -1,35 +1,27 @@
  {
 ******************************************************
   Escape From Monkey Island Launcher
-  Copyright (c) 2004-2010 Bgbennyboy
-  Http://quick.mixnmojo.com
+  2004-2014 By Bennyboy
+  Http://quickandeasysoftware.net
 ******************************************************
 }
-
 {
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 }
 
 {
 BEFORE RELEASE:
-    DISABLE ReportMemoryLeaksOnShutdown in project .dpr
     Change build configuration from debug to release
     Update readme
     Replace readme in MainResources.res with new one
-    Compress with UPX
 }
+
+
+//TODO
+//Update installer
+//Get it all tested
 
 unit Mainform;
 
@@ -37,7 +29,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, StdCtrls, Buttons, Jpeg, Math, ExtCtrls,
+  Dialogs, ComCtrls, StdCtrls, Buttons, Jpeg, Math, ExtCtrls, jclsysinfo,
   jclshell, JCLFileUtils, AdvGlowButton,
   uEMIUtils, uEMIConst;
 
@@ -115,22 +107,16 @@ begin
   if GetUseOriginalExe=true then
     StatusBar1.SimpleText:= strOriginalRes
   else
-    StatusBar1.SimpleText:= strPatchedRes;
+    StatusBar1.SimpleText:= strPatchedRes + ' ' + GetPatchedResolution;
 end;
 
 //Form create
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  //Set vista fonts if necessary
-  //SetDesktopIconFonts(Self.Font);
-
   CreateDefaultRegKeys;
   ChooseImage;
 
-  //Getting the temp file name also seems to create it, so rename it to html for the readme
-  strTempReadMeName:=FileGetTempName('EMI');
-  RenameFile(strTempReadMeName, strTempReadMeName + '.html');
-  strTempReadMeName:=strTempReadMeName + '.html';
+  strTempReadMeName := FindUnusedFileName( IncludeTrailingPathDelimiter( GetWindowsTempFolder) + 'EMILAUNCHERREADME', '.html', '-new');
 
   if GetEMIpath='' then
     showmessage(strRegKeysNotFound);
@@ -138,6 +124,7 @@ begin
   UpdateStatusBar;
 end;
 
+//Form destroy
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   //Remove the temporary file if it was created
@@ -180,7 +167,7 @@ begin
   end;
 end;
 
-//Lec Readme Button Click
+//Lucasarts Readme Button Click
 procedure TfrmMain.btnReadmeLecClick(Sender: TObject);
 var
   FileName: string;
@@ -197,6 +184,23 @@ begin
   ShellExec(0, 'open', FileName, '', '', SW_NORMAL);
 end;
 
+//Readme Launcher button click
+procedure TfrmMain.btnReadmeLauncherClick(Sender: TObject);
+var
+  resStream: TResourceStream;
+begin
+  if strTempReadMeName = '' then exit;
+
+  resStream:=TResourceStream.Create(0, 'README', 'TEXT');
+  try
+    resStream.SaveToFile(strTempReadMeName);
+    //Fix for opening webpage in Windows 8. Normally doesnt work from elevated process - this way lets it run as non-elevated
+    shellexec(0,'open', 'explorer.exe', strTempReadMeName,  ExtractFilePath(strTempReadMeName), SW_NORMAL);
+  finally
+    resStream.Free;
+  end;
+end;
+
 //Resolution button click
 procedure TfrmMain.btnResClick(Sender: TObject);
 begin
@@ -209,24 +213,8 @@ end;
 procedure TfrmMain.btnOptionsClick(Sender: TObject);
 begin
   frmOptions.showmodal;
-  
+
   UpdateStatusBar;
-end;
-
-//Readme Launcher button click
-procedure TfrmMain.btnReadmeLauncherClick(Sender: TObject);
-var
-  resStream: TResourceStream;
-begin
-  if strTempReadMeName = '' then exit;
-
-  resStream:=TResourceStream.Create(0, 'README', 'TEXT');
-  try
-    resStream.SaveToFile(strTempReadMeName);
-    shellexec(0,'open', strTempReadMeName, '', ExtractFilePath(strTempReadMeName), SW_NORMAL);
-  finally
-    resStream.Free;
-  end;
 end;
 
 end.

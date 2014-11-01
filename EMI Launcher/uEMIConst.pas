@@ -63,7 +63,7 @@ const
 
 {********************************Change Res Form*******************************}
   strPatchDisclaimer1:      string = 'READ THIS. There are known problems with this patch:' + sLineBreak  + sLineBreak +
-                                     '1) Cutscenes may not fill the whole screen. The patch makes the videos double in size but if you choose a resolution greater than 1280x960 then they wont fill the entire screen.' + sLineBreak  + sLineBreak +
+                                     '1) Cutscenes may not fill the whole screen. The patch makes the videos double in size at resolutions of 1280x960 and above. But if you choose a resolution other than 640x480 or 1280x960 the videos will not fill the whole screen.' + sLineBreak  + sLineBreak +
                                      '2) There may be some visual glitches like tearing.' + sLineBreak  + sLineBreak +
                                      '3) Playing in a window wont work with some resolutions. Fullscreen will still work though.' + sLineBreak  + sLineBreak +
                                      '4) Saved games made in higher resolutions are not always compatible with each other. They will usually work but there may be visual glitches if you load a saved game that you made in a different resolution.'  + sLineBreak  + sLineBreak +

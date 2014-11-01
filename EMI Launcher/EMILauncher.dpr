@@ -25,8 +25,7 @@ uses
   ChangeNoCdForm in 'ChangeNoCdForm.pas' {frmPatchNoCd};
 
 {$R 'Images.res'}
-{$R 'UAC.res'}
-
+{$R *.res}
 
 begin
   //ReportMemoryLeaksOnShutdown := True;

@@ -230,11 +230,19 @@ begin
     end;
   end;
 
-  //Patch the bink movie files
-  if PatchBinkFiles = false then
+  //Movie doubling patch should only apply at 1280x960 and above
+  if (xRes <= 1280) and (yRes <= 720) then
   begin
-    AddOutput(strErrPatchingMovieFiles);
-    exit;
+    PatchBinkFiles(true);
+  end
+  else
+  begin
+    //Patch the bink movie files
+    if PatchBinkFiles = false then
+    begin
+      AddOutput(strErrPatchingMovieFiles);
+      exit;
+    end;
   end;
 
   try

@@ -5,7 +5,7 @@ object frmChangeRes: TfrmChangeRes
   BorderStyle = bsSingle
   Caption = 'Change Resolution'
   ClientHeight = 420
-  ClientWidth = 282
+  ClientWidth = 318
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -21,122 +21,122 @@ object frmChangeRes: TfrmChangeRes
   object comboboxRes: TComboBoxEx
     Left = 8
     Top = 8
-    Width = 266
+    Width = 302
     Height = 27
     ItemsEx = <
       item
         ImageIndex = 0
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 0
       end
       item
         ImageIndex = 1
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 1
       end
       item
         ImageIndex = 2
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 2
       end
       item
         ImageIndex = 3
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 3
       end
       item
         ImageIndex = 4
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 4
       end
       item
         ImageIndex = 5
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 5
       end
       item
         ImageIndex = 6
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 6
       end
       item
         ImageIndex = 7
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 7
       end
       item
         ImageIndex = 8
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 8
       end
       item
         ImageIndex = 9
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 9
       end
       item
         ImageIndex = 10
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 10
       end
       item
         ImageIndex = 11
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 11
       end
       item
         ImageIndex = 12
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 12
       end
       item
         ImageIndex = 13
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 13
       end
       item
         ImageIndex = 14
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 14
       end
       item
         ImageIndex = 15
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 15
       end
       item
         ImageIndex = 16
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 16
       end
       item
         ImageIndex = 17
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 17
       end
       item
         ImageIndex = 18
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 18
       end
       item
         ImageIndex = 19
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 19
       end
       item
         ImageIndex = 20
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 20
       end
       item
         ImageIndex = 21
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 21
       end
       item
         ImageIndex = 22
-        Indent = 0
+        Indent = 5
         SelectedImageIndex = 22
       end>
     Style = csExDropDownList
@@ -148,7 +148,7 @@ object frmChangeRes: TfrmChangeRes
   object btnChange: TAdvGlowButton
     Left = 8
     Top = 68
-    Width = 266
+    Width = 302
     Height = 27
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
@@ -233,7 +233,7 @@ object frmChangeRes: TfrmChangeRes
     OnChange = editResWidthChange
   end
   object editResHeight: TEdit
-    Left = 201
+    Left = 237
     Top = 41
     Width = 73
     Height = 21
@@ -243,12 +243,16 @@ object frmChangeRes: TfrmChangeRes
     OnChange = editResHeightChange
   end
   object memoOutput: TMemo
-    Left = 8
-    Top = 101
-    Width = 266
+    Left = 0
+    Top = 109
+    Width = 318
     Height = 311
+    Align = alBottom
     ScrollBars = ssVertical
     TabOrder = 4
+    ExplicitLeft = 8
+    ExplicitTop = 101
+    ExplicitWidth = 266
   end
   object dlg640x480: TAdvTaskDialog
     CustomButtons.Strings = (

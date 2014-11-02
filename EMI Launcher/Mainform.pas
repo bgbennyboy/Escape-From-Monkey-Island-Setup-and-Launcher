@@ -107,7 +107,15 @@ begin
   if GetUseOriginalExe=true then
     StatusBar1.SimpleText:= strOriginalRes
   else
-    StatusBar1.SimpleText:= strPatchedRes + ' ' + GetPatchedResolution;
+  begin
+    if (FileExists(getEMIpath + GetEMIexe) = false) and (GetEMIexe = 'PatchedMonkey4.exe') then //Patched Monkey4 exe deleted by user
+    begin
+      ShowMessage( strPatchedExeNotFound);
+      StatusBar1.SimpleText:= strStatusBarError;
+    end
+    else
+      StatusBar1.SimpleText:= strPatchedRes + ' ' + GetPatchedResolution;
+  end;
 end;
 
 //Form create

@@ -36,6 +36,9 @@ const
                                      + #13 +
                                      'Change the resolution back to the default (640x480) to use windowed mode.';
 
+  strPatchedExeNotFound:    string = 'PatchedMonkey4.exe has been deleted.' + sLineBreak + sLineBreak + 'You need to run the resolution patch again.';
+  strStatusBarError:        string = 'ERROR - run the resolution patch again';
+
 {*********************************Options Form*********************************}
   strErrNoNetConnection:    string = 'No active internet connection found';
   strErrDownload:           string = 'Error while downloading ';

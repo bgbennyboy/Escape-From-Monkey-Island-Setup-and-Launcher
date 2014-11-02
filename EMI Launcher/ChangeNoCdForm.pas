@@ -257,6 +257,10 @@ begin
     exit;
   end;
 
+  //Sometimes the files are read only after install from cd
+  RemoveReadOnlyFileAttribute(ExeFile);
+  RemoveReadOnlyFileAttribute(MonkeyMapFile);
+
   //First make the Backup folder if necessary
   BackupPath := IncludeTrailingPathDelimiter(GetEMIPath) + 'Backup\';
   if DirectoryExists(BackupPath) = false then

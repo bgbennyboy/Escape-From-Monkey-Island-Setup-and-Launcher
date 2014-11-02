@@ -177,6 +177,7 @@ var
   TempDWord: DWord;
 begin
   Result := '';
+  try
   TheFile := TFileStream.Create(getEMIpath + GetEMIexe, fmOpenRead);
   try
     if TheFile.Size < 232800 then exit;
@@ -189,6 +190,9 @@ begin
     Result := Result + 'x' + inttostr(TempDWord);
   finally
     TheFile.Free;
+  end;
+  except
+
   end;
 end;
 

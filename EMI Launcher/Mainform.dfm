@@ -25,7 +25,7 @@ object frmMain: TfrmMain
     Top = 240
     Width = 318
     Height = 202
-    Align = alClient
+    Align = alBottom
     ExplicitHeight = 159
   end
   object ImageMain: TImage
@@ -33,7 +33,8 @@ object frmMain: TfrmMain
     Top = 0
     Width = 318
     Height = 240
-    Align = alTop
+    Align = alClient
+    Stretch = True
     ExplicitLeft = -2
     ExplicitWidth = 321
   end

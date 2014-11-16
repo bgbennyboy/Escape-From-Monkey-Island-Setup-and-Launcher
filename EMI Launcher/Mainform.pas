@@ -19,18 +19,14 @@ BEFORE RELEASE:
 }
 
 
-//TODO
-//Update installer
-//Get it all tested
-
 unit Mainform;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, StdCtrls, Buttons, Jpeg, Math, ExtCtrls, jclsysinfo,
-  jclshell, JCLFileUtils, AdvGlowButton,
+  Dialogs, ComCtrls, StdCtrls, Buttons, Jpeg, Math, ExtCtrls, System.UITypes,
+  JCLSysInfo, jclshell, JCLFileUtils, AdvGlowButton,
   uEMIUtils, uEMIConst;
 
 type
@@ -57,6 +53,7 @@ type
     function GetResourceAsJpeg(const ResName: string): TJPEGImage;
     procedure UpdateStatusBar;
     procedure ChooseImage;
+    procedure CheckEMIVersionAndWarn;
   public
     { Public declarations }
   end;
@@ -82,6 +79,13 @@ begin
   finally
     resStream.Free;
   end;
+end;
+
+//Check if Monkey4.exe is version 1.0
+procedure TfrmMain.CheckEMIVersionAndWarn;
+begin
+  if IsMonkey4ExeUpdated = false then
+    MessageDlg(strPromptUpdateGame, mtWarning , [mbOk], 0);
 end;
 
 //Choose image
@@ -110,7 +114,7 @@ begin
   begin
     if (FileExists(getEMIpath + GetEMIexe) = false) and (GetEMIexe = 'PatchedMonkey4.exe') then //Patched Monkey4 exe deleted by user
     begin
-      ShowMessage( strPatchedExeNotFound);
+      MessageDlg(strPatchedExeNotFound, mtError , [mbOk], 0);
       StatusBar1.SimpleText:= strStatusBarError;
     end
     else
@@ -127,9 +131,10 @@ begin
   strTempReadMeName := FindUnusedFileName( IncludeTrailingPathDelimiter( GetWindowsTempFolder) + 'EMILAUNCHERREADME', '.html', '-new');
 
   if GetEMIpath='' then
-    showmessage(strRegKeysNotFound);
+    MessageDlg(strRegKeysNotFound, mtWarning , [mbOk], 0);
 
   UpdateStatusBar;
+  CheckEMIVersionAndWarn;
 end;
 
 //Form destroy
@@ -145,7 +150,7 @@ procedure TfrmMain.btnPlayClick(Sender: TObject);
 begin
   if FileExists(GetEMIpath + GetEMIexe)=false then
   begin
-    ShowMessage(strFileNotFound + GetEMIpath + GetEMIexe);
+    MessageDlg(strFileNotFound + GetEMIpath + GetEMIexe, mtError , [mbOk], 0);
     exit;
   end;
 
@@ -160,7 +165,7 @@ procedure TfrmMain.btnWindowedClick(Sender: TObject);
 begin
   if FileExists(GetEMIpath + GetEMIexe)=false then
   begin
-    ShowMessage(strFileNotFound + GetEMIpath + GetEMIexe);
+    MessageDlg(strFileNotFound + GetEMIpath + GetEMIexe, mtError , [mbOk], 0);
     exit;
   end
   else
@@ -185,7 +190,7 @@ begin
   FileName:=getEMIpath + '\install\' + 'Readme.txt';
   if FileExists(FileName) = false then
   begin
-    ShowMessage(strLecReadmeNotFound);
+    MessageDlg(strLecReadmeNotFound, mtWarning , [mbOk], 0);
     Exit;
   end;
 

@@ -25,6 +25,7 @@ function Get16BitColourDepth: boolean;
 function GetHdRun: boolean;
 function CreateDefaultRegKeys : string;
 function GetPatchedResolution: string;
+function IsMonkey4ExeUpdated: boolean;
 procedure RemoveReadOnlyFileAttribute(FileName: string);
 
 implementation
@@ -181,7 +182,7 @@ begin
   TheFile := TFileStream.Create(getEMIpath + GetEMIexe, fmOpenRead);
   try
     if TheFile.Size < 232800 then exit;
-    
+
     TheFile.Position := 232785;
     TheFile.Read(TempDWord, 4);
     Result := inttostr(TempDWord);
@@ -191,6 +192,75 @@ begin
   finally
     TheFile.Free;
   end;
+  except
+
+  end;
+end;
+
+
+//File a string header within a file
+function FindFileHeader(SearchStream: TStream;
+  StartSearchAt, EndSearchAt: Integer; Header: string): integer;
+var
+  HeaderLength, Index: integer;
+  TempByte: Byte;
+begin
+  Result:=-1;
+  Index:=1;
+  if EndSearchAt > SearchStream.Size then
+    EndSearchAt:=SearchStream.Size;
+
+  HeaderLength:=Length(Header);
+  if HeaderLength <= 0 then exit;
+
+
+  SearchStream.Position:=StartSearchAt;
+  while SearchStream.Position < EndSearchAt do
+  begin
+    SearchStream.Read(TempByte, 1);
+    if Chr(TempByte) <> Header[Index] then
+    begin
+      if Index > 1 then
+        SearchStream.Position := SearchStream.Position  -1;
+
+      Index:=1;
+      continue;
+    end;
+
+    inc(Index);
+    if index > HeaderLength then
+    begin
+      Result:=SearchStream.Position - HeaderLength;
+      exit;
+    end;
+  end;
+
+end;
+
+function IsMonkey4ExeUpdated: boolean;
+{
+  No version information in Monkey4.exe so we need to find it by other methods
+  MD5 is no good because we need to support different language versions and
+  resolution and nocd patches. Best way is to see if it contains the string
+  'D:\MilesUpgradeCode' - that seems to be only in patched versions.
+}
+var
+  TheFile: TFileStream;
+  HeaderPos: integer;
+begin
+  result := false;
+
+  try
+    TheFile := TFileStream.Create(getEMIpath + 'Monkey4.exe', fmOpenRead);
+    try
+      if TheFile.Size < 870000 then exit;
+
+      HeaderPos := FindFileHeader(TheFile, 784419, TheFile.Size, 'D:\MilesUpgradeCode');
+      if HeaderPos > -1 then //Found it
+        result := true;
+    finally
+      TheFile.Free;
+    end;
   except
 
   end;

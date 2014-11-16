@@ -38,10 +38,16 @@ const
 
   strPatchedExeNotFound:    string = 'PatchedMonkey4.exe has been deleted.' + sLineBreak + sLineBreak + 'You need to run the resolution patch again.';
   strStatusBarError:        string = 'ERROR - run the resolution patch again';
+  strPromptUpdateGame:      string = 'You do not have the latest Escape From Monkey Island patch installed.'
+                                      + #13#13 + 'Click options and choose ''Upgrade game to version 1.1'' to install it';
 
 {*********************************Options Form*********************************}
   strErrNoNetConnection:    string = 'No active internet connection found';
   strErrDownload:           string = 'Error while downloading ';
+  strErrMissingBackupFolder:string = 'Couldn''t find files in backup folder to restore!' + sLineBreak + sLineBreak + 'Backups of Monkey4.exe and FullMonkeyMap.int have NOT been restored';
+  strErrRestoreFilesPart1:  string = 'There was a problem restoring the files' + sLineBreak + sLineBreak + 'Error message was: ';
+  strErrRestoreFilesPart2:  string = 'Backups of Monkey4.exe and FullMonkeyMap.int have NOT been restored';
+  strCdPatchRemoved:        string = 'Cd patch removed, original files have been restored.' + sLineBreak + sLineBreak + 'If you used this launcher to change the resolution then you MUST go and change it again now.';
 
 {********************************No Cd Form*******************************}
   strErrNoMonkeyMapFile:    string = 'Couldnt find FullMonkeyMap.imt !';

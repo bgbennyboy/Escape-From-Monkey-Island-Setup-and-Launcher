@@ -17,8 +17,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Controls, Forms, Classes, Dialogs, ImgList,
-  TaskDialog, WebCopy,  AdvGlowButton, JCLRegistry, JCLShell, IOUtils, uEMIUtils,
-  uEMIConst, ChangeNoCdForm;
+  IOUtils, System.UITypes, TaskDialog, WebCopy, AdvGlowButton, JCLRegistry,
+  JCLShell,  uEMIUtils, uEMIConst, ChangeNoCdForm;
 
 type
   TfrmOptions = class(TForm)
@@ -155,7 +155,7 @@ begin
        (FileExists(BackupPath + 'FullMonkeyMap.imt') = false)
     then
     begin
-      ShowMessage('Couldn''t find files in backup folder to restore!' + sLineBreak + sLineBreak + 'Backups of Monkey4.exe and FullMonkeyMap.int have NOT been restored');
+      MessageDlg(strErrMissingBackupFolder, mtWarning , [mbOk], 0);
       Exit;
     end;
 
@@ -171,9 +171,8 @@ begin
       TFile.Copy(BackupPath + 'Monkey4.exe', GetEMIPathAndExe, true);
     except on e: exception do
     begin
-      ShowMessage('There was a problem restoring the files' + sLineBreak + sLineBreak +
-                  'Error message was: ' + e.Message + sLineBreak + sLineBreak +
-                  'Backups of Monkey4.exe and FullMonkeyMap.int have NOT been restored');
+      MessageDlg(strErrRestoreFilesPart1 + e.Message + sLineBreak + sLineBreak +
+                 strErrRestoreFilesPart2, mtError , [mbOk], 0);
       Exit;
     end;
     end;
@@ -182,7 +181,7 @@ begin
     btnRunWithoutCDs.ImageIndex:=7;
     btnRunWithoutCDs.Tag:=0;
     regwriteinteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'hdrun', 0);
-    ShowMessage('Cd patch removed, original files have been restored.' + sLineBreak + sLineBreak + 'If you used this launcher to change the resolution then you MUST go and change it again now.');
+    MessageDlg(strCdPatchRemoved, mtInformation , [mbOk], 0);
   end
   else
   if btnRunWithoutCDs.Tag=0 then
@@ -257,20 +256,20 @@ end;
 //Webcopy connect error
 procedure TfrmOptions.WebCopy1ConnectError(Sender: TObject);
 begin
-  ShowMessage(strErrNoNetConnection);
+  MessageDlg(strErrNoNetConnection, mtWarning , [mbOk], 0);
 end;
 
 //Webcopy URL not found
 procedure TfrmOptions.WebCopy1URLNotFound(Sender: TObject; url: String);
 begin
-  ShowMessage(strFileNotFound + url);
+  MessageDlg(strFileNotFound + url, mtWarning , [mbOk], 0);
 end;
 
 //Webcopy error info
 procedure TfrmOptions.WebCopy1ErrorInfo(Sender: TObject;
   ErrorCode: Integer; ErrorInfo: String);
 begin
-  ShowMessage(strErrDownload + chr(10) + errorinfo);
+  MessageDlg(strErrDownload + chr(10) + errorinfo, mtError , [mbOk], 0);
 end;
 
 //Webcopy file done

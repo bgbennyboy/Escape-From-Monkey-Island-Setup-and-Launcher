@@ -233,7 +233,7 @@ const
 	strUserPageTitle = 'Insert CD 1';
 	strUserPageHeader = 'Please insert Escape From Monkey Island CD 1 in any drive';
 	strUserPageText = 'When you have done this click next';
-	strCD2Prompt = 'Please insert Escape From Monkey Island CD 2 and press OK.' + #13#10#13#10 + 'Or press cancel to exit setup.';
+	strCD2Prompt = 'Please insert Escape From Monkey Island CD 2 and press OK.' +  #13#10  'If you are using a virtual drive, then unmount CD 1 and remount CD 2 in the same drive' + #13#10#13#10 + 'Or press cancel to exit setup.';
 
 
 function IsX64: Boolean;

@@ -286,52 +286,42 @@ object frmOptions: TfrmOptions
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate.exe'
-        URL = 'http://xfer.lfnetwork.com/worldofmi.com/patches/MonkeyUpdate.exe'
+        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate.exe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_FRA.exe'
-        URL = 
-          'http://xfer.lfnetwork.com/worldofmi.com/patches/MonkeyUpdate_FRA' +
-          '.exe'
+        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_FRA.exe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_ITA.exe'
-        URL = 
-          'http://xfer.lfnetwork.com/worldofmi.com/patches/MonkeyUpdate_ITA' +
-          '.exe'
+        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_ITA.exe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_DEU.exe'
-        URL = 
-          'http://xfer.lfnetwork.com/worldofmi.com/patches/MonkeyUpdate_DEU' +
-          '.exe'
+        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_DEU.exe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_BRZ.exe'
-        URL = 
-          'http://xfer.lfnetwork.com/worldofmi.com/patches/MonkeyUpdate_BRZ' +
-          '.exe'
+        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_BRZ.exe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_ESP.exe'
-        URL = 
-          'http://xfer.lfnetwork.com/worldofmi.com/patches/MonkeyUpdate_ESP' +
-          '.exe'
+        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_ESP.exe'
       end>
     ShowTime = True
     Timeout = 0

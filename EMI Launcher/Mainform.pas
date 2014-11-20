@@ -26,7 +26,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, Buttons, Jpeg, Math, ExtCtrls, System.UITypes,
-  JCLSysInfo, jclshell, JCLFileUtils, AdvGlowButton,
+  MMSystem, JCLSysInfo, jclshell, JCLFileUtils, AdvGlowButton,
   uEMIUtils, uEMIConst;
 
 type
@@ -135,6 +135,9 @@ begin
 
   UpdateStatusBar;
   CheckEMIVersionAndWarn;
+
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\open.wav'), SND_NODEFAULT or SND_ASYNC );
 end;
 
 //Form destroy
@@ -153,6 +156,9 @@ begin
     MessageDlg(strFileNotFound + GetEMIpath + GetEMIexe, mtError , [mbOk], 0);
     exit;
   end;
+
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\start.wav'), SND_NODEFAULT);
 
   ShellExec(0, 'open', getEMIpath + GetEMIexe, '', getEMIpath, SW_NORMAL);
 
@@ -173,6 +179,9 @@ begin
     ShowMessage(strWindowedPatchedResWarning)
   else}
   begin
+    if GetLauncherSounds then
+      sndPlaySound(pchar(getEMIpath + 'Install\start.wav'), SND_NODEFAULT);
+
     ShellExec(0, 'open', getEMIpath + GetEMIExe, '-w', getEMIpath, SW_NORMAL);
 
     if GetCloseOnRun=true then
@@ -194,6 +203,9 @@ begin
     Exit;
   end;
 
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
   ShellExec(0, 'open', FileName, '', '', SW_NORMAL);
 end;
 
@@ -207,6 +219,10 @@ begin
   resStream:=TResourceStream.Create(0, 'README', 'TEXT');
   try
     resStream.SaveToFile(strTempReadMeName);
+
+    if GetLauncherSounds then
+      sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
     //Fix for opening webpage in Windows 8. Normally doesnt work from elevated process - this way lets it run as non-elevated
     shellexec(0,'open', 'explorer.exe', strTempReadMeName,  ExtractFilePath(strTempReadMeName), SW_NORMAL);
   finally
@@ -217,6 +233,9 @@ end;
 //Resolution button click
 procedure TfrmMain.btnResClick(Sender: TObject);
 begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
   frmChangeRes.showmodal;
 
   UpdateStatusBar;
@@ -225,6 +244,9 @@ end;
 //Options button click
 procedure TfrmMain.btnOptionsClick(Sender: TObject);
 begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
   frmOptions.showmodal;
 
   UpdateStatusBar;

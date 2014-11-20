@@ -17,8 +17,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Controls, Forms, Classes, Dialogs, ImgList,
-  IOUtils, System.UITypes, TaskDialog, WebCopy, AdvGlowButton, JCLRegistry,
-  JCLShell,  uEMIUtils, uEMIConst, ChangeNoCdForm;
+  IOUtils, System.UITypes, MMSystem, TaskDialog, WebCopy, AdvGlowButton,
+  JCLRegistry, JCLShell,  uEMIUtils, uEMIConst, ChangeNoCdForm;
 
 type
   TfrmOptions = class(TForm)
@@ -30,6 +30,7 @@ type
     btnColourDepth: TAdvGlowButton;
     ImageList1: TImageList;
     btnRunWithoutCDs: TAdvGlowButton;
+    btnSoundInLauncher: TAdvGlowButton;
     procedure FormShow(Sender: TObject);
     procedure btnCloseOnRunClick(Sender: TObject);
     procedure btnPatchClick(Sender: TObject);
@@ -44,6 +45,8 @@ type
     procedure btnRenderingModeClick(Sender: TObject);
     procedure btnColourDepthClick(Sender: TObject);
     procedure btnRunWithoutCDsClick(Sender: TObject);
+    procedure btnSoundInLauncherClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -59,6 +62,12 @@ implementation
 
 
 //Form show actions
+procedure TfrmOptions.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\back.wav'), SND_NODEFAULT or SND_ASYNC );
+end;
+
 procedure TfrmOptions.FormShow(Sender: TObject);
 begin
   if GetCloseOnRun=true then
@@ -104,11 +113,25 @@ begin
     btnRunWithoutCDs.ImageIndex:=7;
     btnRunWithoutCDs.Tag:=0;
   end;
+
+  if GetLauncherSounds=true then
+  begin
+    btnSoundInLauncher.ImageIndex:=10;
+    btnSoundInLauncher.Tag:=1;
+  end
+  else
+  begin
+    btnSoundInLauncher.ImageIndex:=9;
+    btnSoundInLauncher.Tag:=0;
+  end;
 end;
 
 //Close on run button click
 procedure TfrmOptions.btnCloseOnRunClick(Sender: TObject);
 begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
   if btnCloseOnRun.Tag=1 then
   begin
     btnCloseOnRun.ImageIndex:=0;
@@ -127,6 +150,9 @@ end;
 //Rendering Mode Button Click
 procedure TfrmOptions.btnRenderingModeClick(Sender: TObject);
 begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
   if btnRenderingMode.Tag=1 then
   begin
     btnRenderingMode.ImageIndex:=3;
@@ -146,6 +172,9 @@ procedure TfrmOptions.btnRunWithoutCDsClick(Sender: TObject);
 var
   BackupPath: string;
 begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
   if btnRunWithoutCDs.Tag=1 then
   begin
     //Try and restore the backups
@@ -202,9 +231,32 @@ begin
   end
 end;
 
+procedure TfrmOptions.btnSoundInLauncherClick(Sender: TObject);
+begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
+  if btnSoundInLauncher.Tag=1 then
+  begin
+    btnSoundInLauncher.ImageIndex:=9;
+    btnSoundInLauncher.Tag:=0;
+    regwriteinteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'launchersounds', 0);
+  end
+  else
+  if btnSoundInLauncher.Tag=0 then
+  begin
+    btnSoundInLauncher.ImageIndex:=10;
+    btnSoundInLauncher.Tag:=1;
+    regwriteinteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'launchersounds', 1);
+  end
+end;
+
 //Colour depth button click
 procedure TfrmOptions.btnColourDepthClick(Sender: TObject);
 begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
   if btnColourDepth.Tag=1 then
   begin
     btnColourDepth.ImageIndex:=5;
@@ -225,6 +277,9 @@ procedure TfrmOptions.btnPatchClick(Sender: TObject);
 var
   i: integer;
 begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
   //First disable all items
   //May as well set the targetdir here too
   for I := 0 to webcopy1.Items.Count - 1 do

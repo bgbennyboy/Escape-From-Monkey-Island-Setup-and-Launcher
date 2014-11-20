@@ -23,6 +23,7 @@ function GetUseOriginalExe: boolean;
 function GetOpenGL: boolean;
 function Get16BitColourDepth: boolean;
 function GetHdRun: boolean;
+function GetLauncherSounds: boolean;
 function CreateDefaultRegKeys : string;
 function GetPatchedResolution: string;
 function IsMonkey4ExeUpdated: boolean;
@@ -79,6 +80,14 @@ begin
     result:=false;
 end;
 
+function GetLauncherSounds: boolean;
+begin
+  if regreadinteger(HKEY_CURRENT_USER,'Software\Quick And Easy\EMI Launcher','launchersounds')=1 then
+    result:=true
+  else
+    result:=false;
+end;
+
 //Check if using original exe or not
 function GetUseOriginalExe: boolean;
 begin
@@ -130,6 +139,13 @@ begin
 
     Except On EJclRegistryError do
       regwriteinteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'hdrun', 0);
+  end;
+
+  try
+    regreadinteger(HKEY_CURRENT_USER,'Software\Quick And Easy\EMI Launcher','launchersounds')
+
+    Except On EJclRegistryError do
+      regwriteinteger(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'launchersounds', 1);
   end;
 
   //This should always be here as its created by the installer but just in case...

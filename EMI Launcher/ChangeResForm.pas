@@ -19,7 +19,7 @@ unit ChangeResForm;
 interface
 
 uses
-  Windows, Forms, Messages, SysUtils, TaskDialog, ImgList, Controls,
+  Windows, Forms, Messages, SysUtils, TaskDialog, ImgList, Controls, MMSystem,
   AdvGlowButton, StdCtrls, Classes, ComCtrls, JCLRegistry, uEMIUtils, uEMIConst;
 
 type
@@ -37,6 +37,7 @@ type
     procedure comboboxResChange(Sender: TObject);
     procedure editResWidthChange(Sender: TObject);
     procedure editResHeightChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     XRes, YRes: integer;
@@ -204,6 +205,9 @@ procedure TfrmChangeRes.btnChangeClick(Sender: TObject);
 var
   DialogResult: integer;
 begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\click.wav'), SND_NODEFAULT or SND_ASYNC );
+
   PatchError:=false;
   Patch1Applied:=false;
   Patch2Applied:=false;
@@ -316,6 +320,12 @@ end;     //      the user has saved games made in a higher resolution - the game
 
 
 //Form create actions
+procedure TfrmChangeRes.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if GetLauncherSounds then
+    sndPlaySound(pchar(getEMIpath + 'Install\back.wav'), SND_NODEFAULT or SND_ASYNC );
+end;
+
 procedure TfrmChangeRes.FormCreate(Sender: TObject);
 begin
   comboboxRes.ItemIndex:=0;

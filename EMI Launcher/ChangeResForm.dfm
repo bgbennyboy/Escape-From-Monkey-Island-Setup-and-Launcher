@@ -14,6 +14,7 @@ object frmChangeRes: TfrmChangeRes
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -250,9 +251,6 @@ object frmChangeRes: TfrmChangeRes
     Align = alBottom
     ScrollBars = ssVertical
     TabOrder = 4
-    ExplicitLeft = 8
-    ExplicitTop = 101
-    ExplicitWidth = 266
   end
   object dlg640x480: TAdvTaskDialog
     CustomButtons.Strings = (

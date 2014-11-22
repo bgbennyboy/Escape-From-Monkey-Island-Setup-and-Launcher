@@ -19,6 +19,7 @@ VersionInfoTextVersion=1.2
 VersionInfoCopyright=Bennyboy 2014
 AppCopyright=Bennyboy 2014
 AppName=Escape From Monkey Island
+AppVerName=Escape From Monkey Island
 AppVersion=1.0
 RestartIfNeededByRun=false
 AllowRootDirectory=false
@@ -176,8 +177,8 @@ Source: "{code:GetSourceDrive}Monkey4\MonkeyData\Textures\spago\D\*.*"; DestDir:
 
 
 ;Compile into setup
-Source: "C:\Users\Ben\Dropbox\Delphi\Projects\EMI Setup and Launcher\EMI Launcher\EMILauncher.exe"; DestDir: "{app}"; DestName: "EMI Launcher.exe"
-Source: "C:\Users\Ben\Dropbox\Delphi\Projects\EMI Setup and Launcher\EMI Launcher\ReadMe\Escape From Monkey Island Launcher.html"; DestDir: "{app}"
+Source: "..\EMI Launcher\EMILauncher.exe"; DestDir: "{app}"; DestName: "EMI Launcher.exe"
+Source: "..\EMI Launcher\ReadMe\Escape From Monkey Island Launcher.html"; DestDir: "{app}"
 
 [Registry]
 Root: HKLM; Subkey: SOFTWARE\LucasArts Entertainment Company LLC\Monkey4\; ValueType: none; Flags: createvalueifdoesntexist uninsdeletekey

@@ -25,6 +25,7 @@ type
   TfrmPatchNoCd = class(TForm)
     memoOutput: TMemo;
     procedure FormShow(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     function ApplyNoCdPatch(ExeFile: string): boolean;
     function ApplyMonkeyMapPatch(MonkeyMap: string): boolean;
@@ -234,6 +235,12 @@ begin
     end
     else
       AddOutput(strErrPatchXNotApplied1  + inttostr(PatchNo) + strErrPatchXNotApplied2, true);
+end;
+
+procedure TfrmPatchNoCd.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if key = #27 then //Escape key
+    Close;
 end;
 
 procedure TfrmPatchNoCd.FormShow(Sender: TObject);

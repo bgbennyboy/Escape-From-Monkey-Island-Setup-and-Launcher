@@ -12,9 +12,11 @@ object frmOptions: TfrmOptions
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poOwnerFormCenter
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -28,6 +30,7 @@ object frmOptions: TfrmOptions
       's is clicked '
     ImageIndex = 0
     Images = ImageList1
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -35,7 +38,8 @@ object frmOptions: TfrmOptions
     NotesFont.Style = []
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 0
+    TabOrder = 2
+    TabStop = True
     OnClick = btnCloseOnRunClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -76,6 +80,7 @@ object frmOptions: TfrmOptions
     Hint = 'Download and install the EMI patch'
     ImageIndex = 2
     Images = ImageList1
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -84,6 +89,7 @@ object frmOptions: TfrmOptions
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
+    TabStop = True
     OnClick = btnPatchClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -123,6 +129,7 @@ object frmOptions: TfrmOptions
     Hint = 'Choose between Direct3D or OpenGL rendering'
     ImageIndex = 3
     Images = ImageList1
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -130,7 +137,8 @@ object frmOptions: TfrmOptions
     NotesFont.Style = []
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 2
+    TabOrder = 3
+    TabStop = True
     OnClick = btnRenderingModeClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -170,6 +178,7 @@ object frmOptions: TfrmOptions
     Hint = 'Choose between 32 bit and 16 bit colour'
     ImageIndex = 5
     Images = ImageList1
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -177,7 +186,8 @@ object frmOptions: TfrmOptions
     NotesFont.Style = []
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 3
+    TabOrder = 4
+    TabStop = True
     OnClick = btnColourDepthClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -219,6 +229,7 @@ object frmOptions: TfrmOptions
       'y'
     ImageIndex = 7
     Images = ImageList1
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -226,7 +237,8 @@ object frmOptions: TfrmOptions
     NotesFont.Style = []
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 4
+    TabOrder = 0
+    TabStop = True
     OnClick = btnRunWithoutCDsClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -266,6 +278,7 @@ object frmOptions: TfrmOptions
     Hint = 'Play sounds in the launcher like the original did'
     ImageIndex = 9
     Images = ImageList1
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -274,6 +287,7 @@ object frmOptions: TfrmOptions
     ParentShowHint = False
     ShowHint = True
     TabOrder = 5
+    TabStop = True
     OnClick = btnSoundInLauncherClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963

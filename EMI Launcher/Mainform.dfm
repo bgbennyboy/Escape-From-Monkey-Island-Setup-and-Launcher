@@ -13,11 +13,13 @@ object frmMain: TfrmMain
   Font.Name = 'Tahoma'
   Font.Style = []
   GlassFrame.Enabled = True
+  KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
   ScreenSnap = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object Bevel1: TBevel
@@ -55,6 +57,7 @@ object frmMain: TfrmMain
     Width = 305
     Height = 27
     Hint = 'Display the options menu'
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -118,7 +121,8 @@ object frmMain: TfrmMain
       5047E93F8638E6EF61588B800000000049454E44AE426082}
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 1
+    TabOrder = 6
+    TabStop = True
     OnClick = btnOptionsClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -156,6 +160,7 @@ object frmMain: TfrmMain
     Width = 305
     Height = 27
     Hint = 'Show the Lucasarts EMI readme'
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -266,7 +271,8 @@ object frmMain: TfrmMain
       E5D696FF015E84442C569DDC140000000049454E44AE426082}
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 2
+    TabOrder = 4
+    TabStop = True
     OnClick = btnReadmeLecClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -304,6 +310,7 @@ object frmMain: TfrmMain
     Width = 305
     Height = 27
     Hint = 'Show the EMI launcher readme'
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -415,7 +422,8 @@ object frmMain: TfrmMain
       39B73A2B1F7AF91FC67844CA3C81402B0000000049454E44AE426082}
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 3
+    TabOrder = 5
+    TabStop = True
     OnClick = btnReadmeLauncherClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -453,6 +461,7 @@ object frmMain: TfrmMain
     Width = 305
     Height = 27
     Hint = 'Display the change resolution window'
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -573,7 +582,8 @@ object frmMain: TfrmMain
       38676B7A78C7D0330000000049454E44AE426082}
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 4
+    TabOrder = 3
+    TabStop = True
     OnClick = btnResClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -611,6 +621,7 @@ object frmMain: TfrmMain
     Width = 305
     Height = 27
     Hint = 'Play in a window'
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -717,7 +728,8 @@ object frmMain: TfrmMain
       AE426082}
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 5
+    TabOrder = 2
+    TabStop = True
     OnClick = btnWindowedClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -755,6 +767,7 @@ object frmMain: TfrmMain
     Width = 305
     Height = 27
     Hint = 'Play in fullscreen'
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -855,7 +868,8 @@ object frmMain: TfrmMain
       6082}
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 6
+    TabOrder = 1
+    TabStop = True
     OnClick = btnPlayClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963

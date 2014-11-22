@@ -12,10 +12,12 @@ object frmChangeRes: TfrmChangeRes
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -151,6 +153,7 @@ object frmChangeRes: TfrmChangeRes
     Top = 68
     Width = 302
     Height = 27
+    FocusType = ftHot
     NotesFont.Charset = DEFAULT_CHARSET
     NotesFont.Color = clWindowText
     NotesFont.Height = -11
@@ -191,7 +194,8 @@ object frmChangeRes: TfrmChangeRes
       E8FF88D9CA31CA271294A7EE9D20CBF702331D3801A89C10F3911B168B2902E0
       FD55BE173750606FCF4F25083DA87C22EF8F10C10BFE0083F4FBC5F29EEB4600
       00000049454E44AE426082}
-    TabOrder = 1
+    TabOrder = 3
+    TabStop = True
     OnClick = btnChangeClick
     Appearance.BorderColor = 13421257
     Appearance.BorderColorHot = 10079963
@@ -230,7 +234,7 @@ object frmChangeRes: TfrmChangeRes
     Height = 21
     Alignment = taCenter
     NumbersOnly = True
-    TabOrder = 2
+    TabOrder = 1
     OnChange = editResWidthChange
   end
   object editResHeight: TEdit
@@ -240,7 +244,7 @@ object frmChangeRes: TfrmChangeRes
     Height = 21
     Alignment = taCenter
     NumbersOnly = True
-    TabOrder = 3
+    TabOrder = 2
     OnChange = editResHeightChange
   end
   object memoOutput: TMemo
@@ -249,6 +253,7 @@ object frmChangeRes: TfrmChangeRes
     Width = 318
     Height = 311
     Align = alBottom
+    ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 4
   end

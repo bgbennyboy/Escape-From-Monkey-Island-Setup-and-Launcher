@@ -47,6 +47,7 @@ type
     procedure btnRunWithoutCDsClick(Sender: TObject);
     procedure btnSoundInLauncherClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -66,6 +67,12 @@ procedure TfrmOptions.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if GetLauncherSounds then
     sndPlaySound(pchar(getEMIpath + 'Install\back.wav'), SND_NODEFAULT or SND_ASYNC );
+end;
+
+procedure TfrmOptions.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if key = #27 then //Escape key
+    Close;
 end;
 
 procedure TfrmOptions.FormShow(Sender: TObject);

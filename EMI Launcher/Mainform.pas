@@ -48,6 +48,7 @@ type
     procedure btnOptionsClick(Sender: TObject);
     procedure btnReadmeLauncherClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     strTempReadMeName: string;
     function GetResourceAsJpeg(const ResName: string): TJPEGImage;
@@ -146,6 +147,12 @@ begin
   //Remove the temporary file if it was created
   if FileExists(strTempReadMeName) then
     DeleteFile(strTempReadMeName);
+end;
+
+procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if key = #27 then //Escape key
+    Close;
 end;
 
 //Play button click

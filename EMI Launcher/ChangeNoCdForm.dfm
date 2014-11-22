@@ -12,8 +12,10 @@ object frmPatchNoCd: TfrmPatchNoCd
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poOwnerFormCenter
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -23,6 +25,7 @@ object frmPatchNoCd: TfrmPatchNoCd
     Width = 319
     Height = 345
     Align = alClient
+    ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 0
   end

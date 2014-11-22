@@ -38,6 +38,7 @@ type
     procedure editResWidthChange(Sender: TObject);
     procedure editResHeightChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     XRes, YRes: integer;
@@ -334,6 +335,12 @@ begin
 
   editResWidth.Text := inttostr(XRes);
   editResHeight.Text := inttostr(YRes);
+end;
+
+procedure TfrmChangeRes.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if key = #27 then //Escape key
+    Close;
 end;
 
 procedure TfrmChangeRes.comboboxResChange(Sender: TObject);

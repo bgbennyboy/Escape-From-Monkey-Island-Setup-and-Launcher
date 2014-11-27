@@ -222,6 +222,12 @@ begin
   else
   if btnRunWithoutCDs.Tag=0 then
   begin
+    if IsMonkey4ExeItalian then
+    begin
+      ShowMessage(strItalianVersionWarn);
+      Exit;
+    end;
+
     frmPatchNoCd.ShowModal;
 
     //Now check if it was successful

@@ -27,6 +27,7 @@ function GetLauncherSounds: boolean;
 function CreateDefaultRegKeys : string;
 function GetPatchedResolution: string;
 function IsMonkey4ExeUpdated: boolean;
+function IsMonkey4ExeItalian: boolean;
 procedure RemoveReadOnlyFileAttribute(FileName: string);
 
 implementation
@@ -274,6 +275,25 @@ begin
       HeaderPos := FindFileHeader(TheFile, 784419, TheFile.Size, 'D:\MilesUpgradeCode');
       if HeaderPos > -1 then //Found it
         result := true;
+    finally
+      TheFile.Free;
+    end;
+  except
+
+  end;
+end;
+
+function IsMonkey4ExeItalian: boolean;
+var
+  TheFile: TFileStream;
+begin
+  result := false;
+  try
+    TheFile := TFileStream.Create(getEMIpath + 'Monkey4.exe', fmOpenRead);
+    try
+      if (TheFile.Size = 1185923){1.1} or (TheFile.Size = 1173635){1.0} then //hacky but will do for now - other language versions exe's are 850k
+        result := true;
+
     finally
       TheFile.Free;
     end;

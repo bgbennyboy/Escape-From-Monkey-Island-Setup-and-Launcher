@@ -48,6 +48,7 @@ const
   strErrRestoreFilesPart1:  string = 'There was a problem restoring the files' + sLineBreak + sLineBreak + 'Error message was: ';
   strErrRestoreFilesPart2:  string = 'Backups of Monkey4.exe and FullMonkeyMap.int have NOT been restored';
   strCdPatchRemoved:        string = 'Cd patch removed, original files have been restored.' + sLineBreak + sLineBreak + 'If you used this launcher to change the resolution then you MUST go and change it again now.';
+  strItalianVersionWarn:    string = 'It looks like you have the Italian version of the game.' + sLineBreak + sLineBreak + 'The no cd patch will NOT work with your version. Sorry!';
 
 {********************************No Cd Form*******************************}
   strErrNoMonkeyMapFile:    string = 'Couldnt find FullMonkeyMap.imt !';

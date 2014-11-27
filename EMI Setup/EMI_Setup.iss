@@ -138,7 +138,8 @@ Source: "{code:GetSourceDrive}Install\syscheck.exe"; DestDir: "{app}\Install"; F
 Source: "{code:GetSourceDrive}Install\unselect.tga"; DestDir: "{app}\Install"; Flags: external
 Source: "{code:GetSourceDrive}Install\url.exe"; DestDir: "{app}\Install"; Flags: external
 
-
+;On non-English versions
+Source: "{code:GetSourceDrive}Monkey4\MonkeyInstall\i9n.m4b"; DestDir: "{app}"; Flags:skipifsourcedoesntexist external
 
 ;These 2 files only on some versions (V1.2 only?)
 Source: "{code:GetSourceDrive}Monkey4\MonkeyData\Textures\secrets.m4b"; DestDir: "{app}\Textures"; Flags: skipifsourcedoesntexist external

@@ -273,7 +273,7 @@ object frmChangeRes: TfrmChangeRes
       'MI will crash when you access the save/load screen. If you click' +
       ' yes then EMI will be patched to ensure this doesn'#39't happen.'
     Options = [doCommandLinks]
-    Version = '1.8.4.0'
+    Version = '1.8.9.0'
     Left = 200
     Top = 160
   end

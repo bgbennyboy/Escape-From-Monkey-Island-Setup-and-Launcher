@@ -12,12 +12,12 @@
 ;Add other languages
 
 [Setup]
-VersionInfoVersion=1.2
+VersionInfoVersion=1.3
 VersionInfoCompany=Quick And Easy Software
 VersionInfoDescription=Replacement installer for Escape From Monkey Island
-VersionInfoTextVersion=1.2
-VersionInfoCopyright=Bennyboy 2014
-AppCopyright=Bennyboy 2014
+VersionInfoTextVersion=1.3
+VersionInfoCopyright=Bennyboy 2017
+AppCopyright=Bennyboy 2017
 AppName=Escape From Monkey Island
 AppVerName=Escape From Monkey Island
 AppVersion=1.0
@@ -46,8 +46,8 @@ WizardSmallImageFile=Small_Wizard_Image.bmp
 InfoBeforeFile=Before.rtf
 UsePreviousLanguage=no
 VersionInfoProductName=Escape From Monkey Island Setup
-VersionInfoProductVersion=1.2
-VersionInfoProductTextVersion=1.2
+VersionInfoProductVersion=1.3
+VersionInfoProductTextVersion=1.3
 
 [Dirs]
 Name: {app}\Install; Flags: uninsalwaysuninstall
@@ -343,6 +343,9 @@ procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
 	if CurUninstallStep=usUninstall then
 	begin
+    //Delete this reg key created by the launcher. Avoids problem of hdrun already set upon reinstall and then backup folder not being found.
+    RegDeleteValue(HKEY_CURRENT_USER, 'Software\Quick And Easy\EMI Launcher', 'hdrun'); 
+
 		if MsgBox(strDeleteSavedGames ,mbConfirmation, MB_YESNO) = idYes then
 		begin
 			DelTree(ExpandConstant('{app}\Saves'), true, true, true);

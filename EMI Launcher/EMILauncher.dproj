@@ -5,7 +5,7 @@
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <DCC_DependencyCheckOutputName>EMILauncher.exe</DCC_DependencyCheckOutputName>
-        <ProjectVersion>15.4</ProjectVersion>
+        <ProjectVersion>18.1</ProjectVersion>
         <Config Condition="'$(Config)'==''">Release</Config>
         <Base>True</Base>
         <TargetedPlatforms>1</TargetedPlatforms>
@@ -67,6 +67,9 @@
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Manifest_File>UAC.manifest</Manifest_File>
+        <VerInfo_MinorVer>7</VerInfo_MinorVer>
+        <VerInfo_Keys>CompanyName=Quick And Easy Software;FileDescription=EMI Launcher;FileVersion=1.7.0.0;InternalName=EMI Launcher;LegalCopyright=(C) Bennyboy 2017;LegalTrademarks=;OriginalFilename=EMI Launcher.exe;ProductName=EMI Launcher;ProductVersion=1.7.0.0;Comments=http://quickandeasysoftware.net</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -116,8 +119,8 @@
                     <VersionInfoKeys Name="Comments"/>
                 </VersionInfoKeys>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k200.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp200.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k240.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp240.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
                 <Source>
                     <Source Name="MainSource">EMILauncher.dpr</Source>

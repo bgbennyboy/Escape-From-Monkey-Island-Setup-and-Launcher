@@ -20,7 +20,8 @@ interface
 
 uses
   Windows, Forms, Messages, SysUtils, TaskDialog, ImgList, Controls, MMSystem,
-  AdvGlowButton, StdCtrls, Classes, ComCtrls, JCLRegistry, uEMIUtils, uEMIConst;
+  AdvGlowButton, StdCtrls, Classes, ComCtrls, JCLRegistry, uEMIUtils, uEMIConst,
+  System.ImageList;
 
 type
   TfrmChangeRes = class(TForm)
@@ -163,7 +164,7 @@ begin
       BinkFile := TFileStream.Create(BinkFolder + BinkFiles[i], fmOpenReadWrite);
       try
         //Find the BIKi header - different place in each file
-        BIKiHeader := FindFileHeader(BinkFile, 0, 3000, 'BIKi');
+        BIKiHeader := FindFileHeader(BinkFile, 0, 4000, 'BIKi');
         if BIKiHeader = -1 then
         begin
           AddOutput(strErrNoBikiHeader + BinkFiles[i], true);

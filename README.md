@@ -14,5 +14,6 @@ An improved version of the launcher program that LucasArts shipped with Escape F
 * Can automatically download and install the V1.1 update patch for all language versions of EMI.
 * Works on both 32 bit and 64 bit versions of Windows and has been tested on XP through to Windows 10.
 
+![EMI Setup](https://quickandeasysoftware.net/wp/wp-content/uploads/2007/11/EMISetup.png)
 
-!(https://quickandeasysoftware.net/wp/wp-content/uploads/2007/11/EMILauncher.png)
+![EMI Launcher](https://quickandeasysoftware.net/wp/wp-content/uploads/2007/11/EMILauncher.png)

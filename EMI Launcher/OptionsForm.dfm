@@ -36,6 +36,7 @@ object frmOptions: TfrmOptions
     NotesFont.Height = -11
     NotesFont.Name = 'Tahoma'
     NotesFont.Style = []
+    Rounded = True
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
@@ -86,6 +87,7 @@ object frmOptions: TfrmOptions
     NotesFont.Height = -11
     NotesFont.Name = 'Tahoma'
     NotesFont.Style = []
+    Rounded = True
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
@@ -135,6 +137,7 @@ object frmOptions: TfrmOptions
     NotesFont.Height = -11
     NotesFont.Name = 'Tahoma'
     NotesFont.Style = []
+    Rounded = True
     ParentShowHint = False
     ShowHint = True
     TabOrder = 3
@@ -184,6 +187,7 @@ object frmOptions: TfrmOptions
     NotesFont.Height = -11
     NotesFont.Name = 'Tahoma'
     NotesFont.Style = []
+    Rounded = True
     ParentShowHint = False
     ShowHint = True
     TabOrder = 4
@@ -235,6 +239,7 @@ object frmOptions: TfrmOptions
     NotesFont.Height = -11
     NotesFont.Name = 'Tahoma'
     NotesFont.Style = []
+    Rounded = True
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
@@ -284,6 +289,7 @@ object frmOptions: TfrmOptions
     NotesFont.Height = -11
     NotesFont.Name = 'Tahoma'
     NotesFont.Style = []
+    Rounded = True
     ParentShowHint = False
     ShowHint = True
     TabOrder = 5
@@ -348,42 +354,54 @@ object frmOptions: TfrmOptions
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate.exe'
-        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate.exe'
+        URL = 
+          'https://quickandeasysoftware.net/files/EMIpatches/MonkeyUpdate.e' +
+          'xe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_FRA.exe'
-        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_FRA.exe'
+        URL = 
+          'https://quickandeasysoftware.net/files/EMIpatches/MonkeyUpdate_F' +
+          'RA.exe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_ITA.exe'
-        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_ITA.exe'
+        URL = 
+          'https://quickandeasysoftware.net/files/EMIpatches/MonkeyUpdate_I' +
+          'TA.exe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_DEU.exe'
-        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_DEU.exe'
+        URL = 
+          'https://quickandeasysoftware.net/files/EMIpatches/MonkeyUpdate_D' +
+          'EU.exe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_BRZ.exe'
-        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_BRZ.exe'
+        URL = 
+          'https://quickandeasysoftware.net/files/EMIpatches/MonkeyUpdate_B' +
+          'RZ.exe'
       end
       item
         FTPPort = 21
         HTTPCommand = hcPost
         Protocol = wpHttp
         TargetFilename = 'MonkeyUpdate_ESP.exe'
-        URL = 'http://demos.residualvm.org/patches/MonkeyUpdate_ESP.exe'
+        URL = 
+          'https://quickandeasysoftware.net/files/EMIpatches/MonkeyUpdate_E' +
+          'SP.exe'
       end>
     ShowTime = True
     Timeout = 0
@@ -392,7 +410,7 @@ object frmOptions: TfrmOptions
     OnErrorInfo = WebCopy1ErrorInfo
     OnFileDone = WebCopy1FileDone
     OnURLNotFound = WebCopy1URLNotFound
-    Version = '2.4.1.3'
+    Version = '2.5.0.0'
     Left = 136
     Top = 225
   end
@@ -407,11 +425,12 @@ object frmOptions: TfrmOptions
     CommonButtons = [cbCancel]
     DefaultButton = 100
     DefaultRadioButton = 0
+    FooterTextColor = clWindowText
     Icon = tiQuestion
     Title = 'Select a language'
     Instruction = 'What version of the game do you have?'
     Options = [doCommandLinks]
-    Version = '1.8.4.0'
+    Version = '2.2.0.0'
     OnDialogButtonClick = dlgChooseLanguageDialogButtonClick
     Left = 80
     Top = 225

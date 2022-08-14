@@ -12,15 +12,15 @@
 ;Add other languages
 
 [Setup]
-VersionInfoVersion=1.3
+VersionInfoVersion=1.4
 VersionInfoCompany=Quick And Easy Software
 VersionInfoDescription=Replacement installer for Escape From Monkey Island
-VersionInfoTextVersion=1.3
-VersionInfoCopyright=Bennyboy 2017
-AppCopyright=Bennyboy 2017
+VersionInfoTextVersion=1.4
+VersionInfoCopyright=Bennyboy 2022
+AppCopyright=Bennyboy 2022
 AppName=Escape From Monkey Island
 AppVerName=Escape From Monkey Island
-AppVersion=1.0
+AppVersion=1.4
 RestartIfNeededByRun=false
 AllowRootDirectory=false
 DefaultDirName={pf}\Lucasarts\Monkey4\
@@ -29,11 +29,11 @@ InternalCompressLevel=max
 DefaultGroupName=Lucasarts\Monkey 4\
 OutputBaseFilename=Monkey4Setup
 AppPublisher=Quick and Easy Software
-AppPublisherURL=http://quickandeasysoftware.net
-AppSupportURL=http://quickandeasysoftware.net
-AppUpdatesURL=http://quickandeasysoftware.net
+AppPublisherURL=https://quickandeasysoftware.net
+AppSupportURL=https://quickandeasysoftware.net
+AppUpdatesURL=https://quickandeasysoftware.net
 AppComments=Contact me via my contact page
-AppContact=http://quickandeasysoftware.net/contact
+AppContact=https://quickandeasysoftware.net/contact
 UninstallDisplayIcon={app}\EMI Launcher.exe
 UninstallDisplayName=Escape From Monkey Island
 DisableProgramGroupPage=false
@@ -46,8 +46,9 @@ WizardSmallImageFile=Small_Wizard_Image.bmp
 InfoBeforeFile=Before.rtf
 UsePreviousLanguage=no
 VersionInfoProductName=Escape From Monkey Island Setup
-VersionInfoProductVersion=1.3
-VersionInfoProductTextVersion=1.3
+VersionInfoProductVersion=1.4
+VersionInfoProductTextVersion=1.4
+SetupIconFile=EMI_Icon.ico
 
 [Dirs]
 Name: {app}\Install; Flags: uninsalwaysuninstall

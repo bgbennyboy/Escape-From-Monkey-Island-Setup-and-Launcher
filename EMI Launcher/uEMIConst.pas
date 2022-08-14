@@ -17,7 +17,7 @@ interface
 
 const
 {************************************Global************************************}
-  strAppVersion:        string = '1.7';
+  strAppVersion:        string = '1.8';
   strAppTitle:          string = 'Escape From Monkey Island Launcher';
   strFileNotFound:      string = 'File not found: ';
 

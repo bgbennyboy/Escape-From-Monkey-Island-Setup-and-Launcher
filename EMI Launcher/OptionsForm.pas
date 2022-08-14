@@ -18,7 +18,7 @@ interface
 uses
   Windows, Messages, SysUtils, Controls, Forms, Classes, Dialogs, ImgList,
   IOUtils, System.UITypes, MMSystem, TaskDialog, WebCopy, AdvGlowButton,
-  JCLRegistry, JCLShell,  uEMIUtils, uEMIConst, ChangeNoCdForm;
+  JCLRegistry, JCLShell,  uEMIUtils, uEMIConst, ChangeNoCdForm, System.ImageList;
 
 type
   TfrmOptions = class(TForm)

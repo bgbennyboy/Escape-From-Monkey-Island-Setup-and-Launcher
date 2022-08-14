@@ -15,4 +15,4 @@ An improved version of the launcher program that LucasArts shipped with Escape F
 * Works on both 32 bit and 64 bit versions of Windows and has been tested on XP through to Windows 10.
 
 
-(https://quickandeasysoftware.net/wp/wp-content/uploads/2007/11/EMILauncher.png)
+!(https://quickandeasysoftware.net/wp/wp-content/uploads/2007/11/EMILauncher.png)

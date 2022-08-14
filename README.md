@@ -13,3 +13,6 @@ An improved version of the launcher program that LucasArts shipped with Escape F
 * Can patch the game so the cds don’t need to be in the drive to play (on all versions of the game except Italian).
 * Can automatically download and install the V1.1 update patch for all language versions of EMI.
 * Works on both 32 bit and 64 bit versions of Windows and has been tested on XP through to Windows 10.
+
+
+(https://quickandeasysoftware.net/wp/wp-content/uploads/2007/11/EMILauncher.png)
